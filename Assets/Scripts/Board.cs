@@ -43,13 +43,18 @@ public class Board : MonoBehaviour {
     public int basePieceValue = 20;
     private int streakValue = 1;
     private ScoreManager scoreManager;
+    private SoundManager soundManager;
     public float refillDelay = 0.5f;
+    public int[] scoreGoals;
+
+
 
 	// Use this for initialization
 	void Start ()
     {
         findMatches = FindObjectOfType<FindMatches>();
         scoreManager = FindObjectOfType<ScoreManager>();
+        soundManager = FindObjectOfType<SoundManager>();
         blankSpaces = new bool[width, height];
         allDots = new GameObject[width, height];
         breakableTiles = new BackgroundTile[width, height];
@@ -282,7 +287,11 @@ public class Board : MonoBehaviour {
                     breakableTiles[column, row] = null;
                 }
             }
-
+            //Does the soundmanager exist
+            if(soundManager !=null)
+            {
+                soundManager.PlayRandomDestroyNoise();
+            }
             GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
 
 
