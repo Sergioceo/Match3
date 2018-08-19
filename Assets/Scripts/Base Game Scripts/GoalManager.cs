@@ -14,17 +14,43 @@ public class BlankGoal
 
 public class GoalManager : MonoBehaviour {
 
+    private Board board;
     public BlankGoal[] levelGoals;
     public List<GoalPanel> currentGoals = new List<GoalPanel>();
     public GameObject goalPrefab;
     public GameObject goalIntoParent;
     public GameObject goalGameParent;
+    private EndGameManager endGame;
 
     // Use this for initialization
     void Start ()
     {
+        board = FindObjectOfType<Board>();
+        endGame = FindObjectOfType<EndGameManager>();
+        GetGoals();
         SetupGoals();
 	}
+
+    void GetGoals()
+    {
+        if(board != null)
+        {
+            if (board.world != null)
+            {
+                if (board.level < board.world.levels.Length)
+                {
+                    if (board.world.levels[board.level] != null)
+                    {
+                        levelGoals = board.world.levels[board.level].levelGoals;
+                        for (int i = 0; i < levelGoals.Length; i++)
+                        {
+                            levelGoals[i].numberCollected = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     void SetupGoals()
     {
@@ -59,8 +85,12 @@ public class GoalManager : MonoBehaviour {
                 currentGoals[i].thisText.text = "" + levelGoals[i].numberNeeded + "/" + levelGoals[i].numberNeeded;
             }
         }
-        if(goalsCompleted >= levelGoals.Length)
+        if (goalsCompleted >= levelGoals.Length)
         {
+            if (endGame != null)
+            {
+                endGame.WinGame();
+            }
             Debug.Log("You Win!");
         }
     }

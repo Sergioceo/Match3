@@ -43,14 +43,17 @@ public class FindMatches : MonoBehaviour {
         if (dot1.isRowBomb)
         {
             currentMatches.Union(GetRowPieces(dot1.row));
+            board.BombRow(dot1.row);
         }
         if (dot2.isRowBomb)
         {
             currentMatches.Union(GetRowPieces(dot2.row));
+            board.BombRow(dot2.row);
         }
         if (dot3.isRowBomb)
         {
             currentMatches.Union(GetRowPieces(dot3.row));
+            board.BombRow(dot3.row);
         }
         return currentDots;
     }
@@ -61,14 +64,17 @@ public class FindMatches : MonoBehaviour {
         if (dot1.isColumnBomb)
         {
             currentMatches.Union(GetColumnPieces(dot1.column));
+            board.BombColumn(dot1.column);
         }
         if (dot2.isColumnBomb)
         {
             currentMatches.Union(GetColumnPieces(dot2.column));
+            board.BombColumn(dot2.column);
         }
         if (dot3.isColumnBomb)
         {
             currentMatches.Union(GetColumnPieces(dot3.column));
+            board.BombColumn(dot3.column);
         }
         return currentDots;
     }
@@ -91,7 +97,8 @@ public class FindMatches : MonoBehaviour {
 
     private IEnumerator FindAllMatchesCo()
     {
-        yield return new WaitForSeconds(.2f);
+        //yield return new WaitForSeconds(.2f);
+        yield return null;
         for (int i = 0; i < board.width; i++)
         {
             for (int j = 0; j < board.height; j++)
@@ -136,7 +143,6 @@ public class FindMatches : MonoBehaviour {
                             }
                         }
                     }
-
                 }
             }
         }
@@ -199,7 +205,6 @@ public class FindMatches : MonoBehaviour {
                 dot.isMatched = true;
             }
         }
-
         return dots;
     }
 
@@ -219,17 +224,16 @@ public class FindMatches : MonoBehaviour {
                 dot.isMatched = true;
             }
         }
-
         return dots;
     }
 
-    public void CheckBombs()
+    public void CheckBombs(MatchType matchType)
     {
         // Did the player move something?
         if(board.currentDot != null)
         {
             // Is the piece they moved matched?
-            if(board.currentDot.isMatched)
+            if (board.currentDot.isMatched && board.currentDot.tag == matchType.color)
             {
                 // Make it unmatched
                 board.currentDot.isMatched = false;
@@ -251,7 +255,7 @@ public class FindMatches : MonoBehaviour {
             {
                 Dot otherDot = board.currentDot.otherDot.GetComponent<Dot>();
                 // Is the other dot matched?
-                if (otherDot.isMatched)
+                if (otherDot.isMatched && board.currentDot.tag == matchType.color)
                 {
                     // Make it unmatched
                     otherDot.isMatched = false;
@@ -266,7 +270,6 @@ public class FindMatches : MonoBehaviour {
                         //Make a column bomb
                         otherDot.MakeColumnBomb();
                     }
-
                 }
             }
         }

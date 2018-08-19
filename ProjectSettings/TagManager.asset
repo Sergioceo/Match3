@@ -14,6 +14,10 @@ TagManager:
   - Yellow Dot
   - Color
   - Breakable
+  - Board
+  - Concrete
+  - Chocolate
+  - Lock
   layers:
   - Default
   - TransparentFX
@@ -48,6 +52,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3330432385
+    locked: 0
+  - name: Particles
+    uniqueID: 3120989439
+    locked: 0
+  - name: Markers
+    uniqueID: 2816567297
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
